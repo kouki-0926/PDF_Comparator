@@ -1,0 +1,19 @@
+build/
+dist/
+*.spec
+*.pyc
+
+# latex
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.bcf
+*.run.xml
