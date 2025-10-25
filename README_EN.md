@@ -10,7 +10,7 @@ This tool compares two PDF files and highlights the differences. [Output Example
 1. Download the [executable file](https://github.com/kouki-0926/PDF_Comparator/raw/refs/heads/master/dist/PDF比較ツール.exe).
 2. Double-click the downloaded `PDF比較ツール.exe` to launch it.
 
-### 1.2 Launching from Source Code (Not Recommended)
+### 1.2 Launch from Source Code (Not Recommended)
 1. Install Python 3.12 or later.
 2. Install required libraries.
 ```sh
@@ -24,6 +24,7 @@ $ git clone git@github.com:kouki-0926/PDF_Comparator.git
 ```sh
 $ python PDF_Comparator/main.py
 ```
+
 ## 2. Usage
 1. Select two PDF files you want to compare.
 2. Click the “PDF比較実行” button.
