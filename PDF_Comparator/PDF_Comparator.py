@@ -19,7 +19,7 @@ def PDF_Comparator(new_path, old_path):
     mask = mask.filter(ImageFilter.MaxFilter(9))
 
     # 差分周辺を赤で塗ったマスク画像を作成
-    red_overlay = Image.new("RGBA", new_img.size, (255, 0, 0, 0))
+    red_overlay = Image.new("RGBA", mask.size, (255, 0, 0, 0))
     red_overlay.putalpha(mask.point(lambda p: int(0.5 * p)))
 
     # ハイライト画像を作成
@@ -45,8 +45,8 @@ def PDF_Comparator(new_path, old_path):
 
 if __name__ == "__main__":
     # ================ 比較したいPDFのファイル名を入力してください ================
-    new_pdf_path = "new.pdf"
-    old_pdf_path = "old.pdf"
+    new_pdf_path = "./sample/new.pdf"
+    old_pdf_path = "./sample/old.pdf"
     # =========================================================================
 
     PDF_Comparator(new_pdf_path, old_pdf_path)
