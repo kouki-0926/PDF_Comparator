@@ -1,3 +1,7 @@
+## README.md
+- [日本語版](./README.md)
+- [English Version](./README_EN.md)
+
 # PDF比較ツール
 2つのPDFファイルを比較し，差分をハイライト表示するツールです．[出力例](./sample/new__old.pdf)
 
