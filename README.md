@@ -6,7 +6,7 @@
 1. [実行ファイル](./dist/PDF比較ツール.exe)をダウンロードする．
 2. ダウンロードした`PDF比較ツール.exe`をダブルクリックして起動する．
 
-### 1.2 ソースコードから起動
+### 1.2 ソースコードから起動(非推奨)
 1. Python 3.12以降をインストールする．
 2. 必要なライブラリをインストールする．
 ```sh
@@ -20,6 +20,9 @@ $ git clone git@github.com:kouki-0926/PDF_Comparator.git
 ```sh
 $ python PDF_Comparator/main.py
 ```
+
+## 2. 使い方
+![](./img/tool.png)
 
 ## 3. 実行ファイルの作成方法
 ```sh
