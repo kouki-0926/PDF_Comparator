@@ -25,11 +25,13 @@ def copy_to_clipboard(text):
     root.clipboard_append(text)
 
 
+# ====================== メインウィンドウ ======================
 root = tkinter.Tk()
 root.title(u"PDF比較ツール")
 root.geometry("600x200")
 root.resizable(False, False)
 
+# ====================== ファイル選択 ======================
 select_file_frame1 = tkinter.Frame(root)
 select_file_frame2 = tkinter.Frame(root)
 select_file_frame1.pack(pady=10)
@@ -50,11 +52,13 @@ button2 = tkinter.Button(select_file_frame2, text="参照", command=lambda: sele
 button1.pack(side=tkinter.LEFT)
 button2.pack(side=tkinter.LEFT)
 
-button_compare = tkinter.Button(root, text="PDF比較実行", width=50, command=compare_and_show)
+# ====================== 実行ボタン ======================
+button_compare = tkinter.Button(root, text="PDF比較実行", command=lambda: compare_and_show(), width=50)
 button_compare.pack(pady=10)
 
+# ====================== 結果表示 ======================
 result_frame = tkinter.Frame(root)
-result_frame.pack(pady=20)
+result_frame.pack(pady=10)
 
 label_result = tkinter.Label(result_frame, text="結果:")
 label_result.pack(side=tkinter.LEFT)
@@ -64,6 +68,7 @@ entry_result = tkinter.Entry(result_frame, textvariable=var_result, width=80, st
 entry_result.pack(side=tkinter.LEFT, padx=10)
 
 button_copy = tkinter.Button(result_frame, text="コピー", command=lambda: copy_to_clipboard(var_result.get()))
-button_copy.pack(side=tkinter.LEFT, padx=10)
+button_copy.pack(side=tkinter.LEFT)
 
+# ====================== メインループ ======================
 root.mainloop()
