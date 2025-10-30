@@ -1,5 +1,6 @@
 from pdf2image import convert_from_path
 from PIL import Image, ImageChops, ImageFilter, ImageDraw, ImageFont
+import tempfile
 import os
 
 
@@ -34,10 +35,14 @@ def PDF_Comparator(new_path, old_path):
     new_draw.text((100, 100), "変更後", fill=(0, 0, 0, 255), font=ImageFont.truetype("meiryo.ttc", 100))
     old_draw.text((100, 100), "変更前", fill=(0, 0, 0, 255), font=ImageFont.truetype("meiryo.ttc", 100))
 
+    # PDF_Comparatorフォルダを一時ディレクトリ内に作成
+    output_dir = os.path.join(tempfile.gettempdir(), "PDF_Comparator")
+    os.makedirs(output_dir, exist_ok=True)
+
     # 結果をPDF保存
-    new_path = os.path.basename(new_path).replace(".pdf", "")
-    old_path = os.path.basename(old_path).replace(".pdf", "")
-    output_path = new_path + "__" + old_path + ".pdf"
+    new_name = os.path.basename(new_path).replace(".pdf", "")
+    old_name = os.path.basename(old_path).replace(".pdf", "")
+    output_path = os.path.join(output_dir, new_name + "__" + old_name + ".pdf")
     old_rgb.save(output_path, save_all=True, append_images=[new_rgb])
 
     return output_path
