@@ -4,14 +4,7 @@ import tempfile
 import os
 
 
-def PDF_Comparator(new_path, old_path):
-    # PDFを画像として取得
-    new_img = convert_from_path(new_path, first_page=1, last_page=1)[0].convert("RGB")
-    old_img = convert_from_path(old_path, first_page=1, last_page=1)[0].convert("RGB")
-    if new_img.size != old_img.size:
-        print("PDFのサイズが異なります．")
-        return
-
+def PDF_Comparator_images(new_img, old_img):
     # 差分を計算
     diff = ImageChops.difference(new_img, old_img).convert("L")
     # ノイズ除去
@@ -35,6 +28,22 @@ def PDF_Comparator(new_path, old_path):
     new_draw.text((100, 100), "変更後", fill=(0, 0, 0, 255), font=ImageFont.truetype("meiryo.ttc", 100))
     old_draw.text((100, 100), "変更前", fill=(0, 0, 0, 255), font=ImageFont.truetype("meiryo.ttc", 100))
 
+    return new_rgb, old_rgb
+
+
+def PDF_Comparator(new_path, old_path):
+    # PDFを画像として取得
+    new_pages = [p.convert("RGB") for p in convert_from_path(new_path)]
+    old_pages = [p.convert("RGB") for p in convert_from_path(old_path)]
+
+    # ページ毎に比較する
+    output_images = []
+    for i in range(min(len(new_pages), len(old_pages))):
+        new_rgb, old_rgb = PDF_Comparator_images(new_pages[i], old_pages[i])
+
+        output_images.append(old_rgb)
+        output_images.append(new_rgb)
+
     # PDF_Comparatorフォルダを一時ディレクトリ内に作成
     output_dir = os.path.join(tempfile.gettempdir(), "PDF_Comparator")
     os.makedirs(output_dir, exist_ok=True)
@@ -43,8 +52,9 @@ def PDF_Comparator(new_path, old_path):
     new_name = os.path.basename(new_path).replace(".pdf", "")
     old_name = os.path.basename(old_path).replace(".pdf", "")
     output_path = os.path.join(output_dir, new_name + "__" + old_name + ".pdf")
-    old_rgb.save(output_path, save_all=True, append_images=[new_rgb])
 
+    first, rest = output_images[0], output_images[1:]
+    first.save(output_path, save_all=True, append_images=rest)
     return output_path
 
 
