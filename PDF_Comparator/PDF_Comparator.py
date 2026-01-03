@@ -4,7 +4,7 @@ import tempfile
 import os
 
 
-def PDF_Comparator_images(new_img, old_img):
+def PDF_Comparator_images(new_img, old_img, cnt, page_cnt):
     # 差分を計算
     diff = ImageChops.difference(new_img, old_img).convert("L")
     # ノイズ除去
@@ -25,8 +25,8 @@ def PDF_Comparator_images(new_img, old_img):
     # 左上にラベルを追加
     new_draw = ImageDraw.Draw(new_rgb)
     old_draw = ImageDraw.Draw(old_rgb)
-    new_draw.text((100, 100), "変更後", fill=(0, 0, 0, 255), font=ImageFont.truetype("meiryo.ttc", 100))
-    old_draw.text((100, 100), "変更前", fill=(0, 0, 0, 255), font=ImageFont.truetype("meiryo.ttc", 100))
+    new_draw.text((100, 100), f"変更後 {cnt+1}/{page_cnt}", fill=(0, 0, 0, 255), font=ImageFont.truetype("meiryo.ttc", 100))
+    old_draw.text((100, 100), f"変更前 {cnt+1}/{page_cnt}", fill=(0, 0, 0, 255), font=ImageFont.truetype("meiryo.ttc", 100))
 
     return new_rgb, old_rgb
 
@@ -35,12 +35,12 @@ def PDF_Comparator(new_path, old_path):
     # PDFを画像として取得
     new_pages = [p.convert("RGB") for p in convert_from_path(new_path)]
     old_pages = [p.convert("RGB") for p in convert_from_path(old_path)]
+    page_cnt = min(len(new_pages), len(old_pages))
 
     # ページ毎に比較する
     output_images = []
-    for i in range(min(len(new_pages), len(old_pages))):
-        new_rgb, old_rgb = PDF_Comparator_images(new_pages[i], old_pages[i])
-
+    for i in range(page_cnt):
+        new_rgb, old_rgb = PDF_Comparator_images(new_pages[i], old_pages[i], i, page_cnt)
         output_images.append(old_rgb)
         output_images.append(new_rgb)
 
