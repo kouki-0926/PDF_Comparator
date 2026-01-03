@@ -34,5 +34,5 @@ $ python PDF_Comparator/main.py
 ## 3. How to Create an Executable File
 ```sh
 $ pip install pyinstaller
-$ pyinstaller PDF_Comparator/main.py --name=PDF比較ツール --icon=img/icon.png --onefile --noconsole
+$ pyinstaller PDF_Comparator/main.py --name="PDF比較ツール" --icon=img/icon.png --onefile --windowed
 ```
