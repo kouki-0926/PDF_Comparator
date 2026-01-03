@@ -4,14 +4,7 @@ import tempfile
 import os
 
 
-def PDF_Comparator(new_path, old_path):
-    # PDFを画像として取得
-    new_img = convert_from_path(new_path, first_page=1, last_page=1)[0].convert("RGB")
-    old_img = convert_from_path(old_path, first_page=1, last_page=1)[0].convert("RGB")
-    if new_img.size != old_img.size:
-        print("PDFのサイズが異なります．")
-        return
-
+def PDF_Comparator_images(new_img, old_img, cnt, page_cnt):
     # 差分を計算
     diff = ImageChops.difference(new_img, old_img).convert("L")
     # ノイズ除去
@@ -32,8 +25,24 @@ def PDF_Comparator(new_path, old_path):
     # 左上にラベルを追加
     new_draw = ImageDraw.Draw(new_rgb)
     old_draw = ImageDraw.Draw(old_rgb)
-    new_draw.text((100, 100), "変更後", fill=(0, 0, 0, 255), font=ImageFont.truetype("meiryo.ttc", 100))
-    old_draw.text((100, 100), "変更前", fill=(0, 0, 0, 255), font=ImageFont.truetype("meiryo.ttc", 100))
+    new_draw.text((100, 100), f"変更後 {cnt+1}/{page_cnt}", fill=(0, 0, 0, 255), font=ImageFont.truetype("meiryo.ttc", 100))
+    old_draw.text((100, 100), f"変更前 {cnt+1}/{page_cnt}", fill=(0, 0, 0, 255), font=ImageFont.truetype("meiryo.ttc", 100))
+
+    return new_rgb, old_rgb
+
+
+def PDF_Comparator(new_path, old_path):
+    # PDFを画像として取得
+    new_pages = [p.convert("RGB") for p in convert_from_path(new_path)]
+    old_pages = [p.convert("RGB") for p in convert_from_path(old_path)]
+    page_cnt = min(len(new_pages), len(old_pages))
+
+    # ページ毎に比較する
+    output_images = []
+    for cnt in range(page_cnt):
+        new_rgb, old_rgb = PDF_Comparator_images(new_pages[cnt], old_pages[cnt], cnt, page_cnt)
+        output_images.append(old_rgb)
+        output_images.append(new_rgb)
 
     # PDF_Comparatorフォルダを一時ディレクトリ内に作成
     output_dir = os.path.join(tempfile.gettempdir(), "PDF_Comparator")
@@ -42,9 +51,10 @@ def PDF_Comparator(new_path, old_path):
     # 結果をPDF保存
     new_name = os.path.basename(new_path).replace(".pdf", "")
     old_name = os.path.basename(old_path).replace(".pdf", "")
-    output_path = os.path.join(output_dir, new_name + "__" + old_name + ".pdf")
-    old_rgb.save(output_path, save_all=True, append_images=[new_rgb])
+    output_path = os.path.join(output_dir, f"{new_name}__{old_name}.pdf")
 
+    first, rest = output_images[0], output_images[1:]
+    first.save(output_path, save_all=True, append_images=rest)
     return output_path
 
 
