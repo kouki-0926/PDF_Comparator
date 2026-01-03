@@ -39,8 +39,8 @@ def PDF_Comparator(new_path, old_path):
 
     # ページ毎に比較する
     output_images = []
-    for i in range(page_cnt):
-        new_rgb, old_rgb = PDF_Comparator_images(new_pages[i], old_pages[i], i, page_cnt)
+    for cnt in range(page_cnt):
+        new_rgb, old_rgb = PDF_Comparator_images(new_pages[cnt], old_pages[cnt], cnt, page_cnt)
         output_images.append(old_rgb)
         output_images.append(new_rgb)
 
@@ -51,7 +51,7 @@ def PDF_Comparator(new_path, old_path):
     # 結果をPDF保存
     new_name = os.path.basename(new_path).replace(".pdf", "")
     old_name = os.path.basename(old_path).replace(".pdf", "")
-    output_path = os.path.join(output_dir, new_name + "__" + old_name + ".pdf")
+    output_path = os.path.join(output_dir, f"{new_name}__{old_name}.pdf")
 
     first, rest = output_images[0], output_images[1:]
     first.save(output_path, save_all=True, append_images=rest)
