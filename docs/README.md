@@ -3,7 +3,7 @@
 - [English Version](./README.md)
 
 # PDF Comparator
-This tool compares two PDF files and highlights the differences. [Output Example](./sample/new__old.pdf)
+This tool compares two PDF files and highlights the differences. [Output Example](../sample/new__old.pdf)
 
 ## 1. How to Launch the PDF Comparator
 ### 1.1 Launch from Executable File (Recommended)
