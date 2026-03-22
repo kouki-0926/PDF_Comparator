@@ -29,7 +29,7 @@ $ python PDF_Comparator/main.py
 1. Select two PDF files you want to compare.
 2. Click the “PDF比較実行” button.
 3. A PDF file with differences highlighted will be output.
-<img src="../img/screenshot.png" width="75%">
+<img src="./img/screenshot.png" width="75%">
 
 ## 3. How to Create an Executable File
 ```sh

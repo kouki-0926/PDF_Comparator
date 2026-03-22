@@ -29,7 +29,7 @@ $ python PDF_Comparator/main.py
 1. 比較したいPDFファイルを2つ選択する．
 2. 「PDF比較実行」ボタンをクリックする．
 3. 差分がハイライトされたPDFファイルが出力される．
-<img src="../img/screenshot.png" width="75%">
+<img src="./img/screenshot.png" width="75%">
 
 ## 3. 実行ファイルの作成方法
 ```sh
